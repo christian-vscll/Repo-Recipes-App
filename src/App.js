@@ -22,14 +22,6 @@ function App() {
           <Route exact path="/favorite-recipes" component={ Login } />
         </Switch>
       </BrowserRouter>
-      {/* <span className="logo">TRYBE</span>
-      <object
-        className="rocksGlass"
-        type="image/svg+xml"
-        data={ rockGlass }
-      >
-        Glass
-      </object> */}
     </div>
   );
 }
