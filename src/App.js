@@ -8,7 +8,6 @@ import Login from './pages/Login';
 function App() {
   return (
     <div className="meals">
-<<<<<<< HEAD
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ Login } />
@@ -24,9 +23,6 @@ function App() {
         </Switch>
       </BrowserRouter>
       {/* <span className="logo">TRYBE</span>
-=======
-      <span className="logo">TRYBE 2.0</span>
->>>>>>> origin
       <object
         className="rocksGlass"
         type="image/svg+xml"
