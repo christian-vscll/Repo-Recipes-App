@@ -1,60 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import searchIco from '../images/searchIcon.svg';
 import profileIco from '../images/profileIcon.svg';
 
-function Header({ pathName = '' }) {
+function Header({ pathName, history }) {
+  const [searchVisible, setSearchVisible] = useState(false);
   let title = '';
   let search = false;
-  switch (pathName) {
-  case '/meals':
-    title = 'Meals';
-    search = true;
-    break;
-  case '/drinks':
-    title = 'Drinks';
-    search = true;
-    break;
-  case '/profile':
-    title = 'Profile';
-    break;
-  case '/done-recipes':
-    title = 'Done Recipes';
-    break;
-  case '/favorite-recipes':
-    title = 'Favorite Recipes';
-    break;
-  default:
-    break;
-  }
+
+  const setTitleAndSearch = () => {
+    switch (pathName) {
+    case '/meals':
+      title = 'Meals';
+      search = true;
+      break;
+    case '/drinks':
+      title = 'Drinks';
+      search = true;
+      break;
+    case '/profile':
+      title = 'Profile';
+      break;
+    case '/done-recipes':
+      title = 'Done Recipes';
+      break;
+    case '/favorite-recipes':
+      title = 'Favorite Recipes';
+      break;
+    default:
+      break;
+    }
+  };
+  setTitleAndSearch();
 
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
-      <object
-        data-testid="profile-top-btn"
-        type="image/svg+xml"
-        data={ profileIco }
-        src={ profileIco }
+      <button
+        type="button"
+        onClick={ () => history.push('/profile') }
       >
-        profile
-      </object>
+        <img src={ profileIco } alt="profile" data-testid="profile-top-btn" />
+      </button>
       {search
       && (
-        <object
-          data-testid="search-top-btn"
-          type="image/svg+xml"
-          data={ searchIco }
-          src={ searchIco }
+        <button
+          type="button"
+          onClick={ () => setSearchVisible(!searchVisible) }
         >
-          search
-        </object>)}
+          <img src={ searchIco } alt="profile" data-testid="search-top-btn" />
+        </button>)}
+      {searchVisible
+      && (
+        <p data-testid="search-input">
+          barra de busca
+        </p>)}
     </div>
   );
 }
 
+Header.defaultProps = {
+  history: {
+    push: () => {},
+  },
+  pathName: '',
+};
+
 Header.propTypes = {
-  pathName: PropTypes.string.isRequired,
+  pathName: PropTypes.string,
+  history: PropTypes.shape({ push: PropTypes.func }),
 };
 
 export default Header;
