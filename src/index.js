@@ -1,10 +1,14 @@
 import React from 'react';
+<<<<<<< HEAD
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
+=======
+import ReactDOM from 'react-dom';
+>>>>>>> origin
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
+<<<<<<< HEAD
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
@@ -17,3 +21,9 @@ ReactDOM
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+=======
+ReactDOM.render(
+  <App />,
+  document.getElementById('root'),
+);
+>>>>>>> origin
