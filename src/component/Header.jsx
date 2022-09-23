@@ -3,41 +3,58 @@ import PropTypes from 'prop-types';
 import searchIco from '../images/searchIcon.svg';
 import profileIco from '../images/profileIcon.svg';
 
-function Header({ title = 'titulo', search = false }) {
+function Header({ pathName = '' }) {
+  let title = '';
+  let search = false;
+  switch (pathName) {
+  case '/meals':
+    title = 'Meals';
+    search = true;
+    break;
+  case '/drinks':
+    title = 'Drinks';
+    search = true;
+    break;
+  case '/profile':
+    title = 'Profile';
+    break;
+  case '/done-recipes':
+    title = 'Done Recipes';
+    break;
+  case '/favorite-recipes':
+    title = 'Favorite Recipes';
+    break;
+  default:
+    break;
+  }
+
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
-      <button
-        type="button"
+      <object
         data-testid="profile-top-btn"
+        type="image/svg+xml"
+        data={ profileIco }
+        src={ profileIco }
       >
-        <object
-          type="image/svg+xml"
-          data={ profileIco }
-        >
-          profile
-        </object>
-      </button>
+        profile
+      </object>
       {search
       && (
-        <button
-          type="button"
+        <object
           data-testid="search-top-btn"
+          type="image/svg+xml"
+          data={ searchIco }
+          src={ searchIco }
         >
-          <object
-            type="image/svg+xml"
-            data={ searchIco }
-          >
-            search
-          </object>
-        </button>)}
+          search
+        </object>)}
     </div>
   );
 }
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
-  search: PropTypes.bool.isRequired,
+  pathName: PropTypes.string.isRequired,
 };
 
 export default Header;
