@@ -15,8 +15,8 @@ function App() {
     <div className="meals">
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Recipes } />
-        <Route path="/drinks" component={ Recipes } />
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
         <Route exact path="/meals/:id-da-receita" component={ RecipeInProgress } />
         <Route exact path="/drinks/:id-da-receita" component={ RecipeInProgress } />
         <Route
