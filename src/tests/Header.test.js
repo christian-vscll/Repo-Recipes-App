@@ -24,7 +24,7 @@ describe('Component Header', () => {
     expect(history.location.pathname).toBe('/profile');
   });
 
-  it('test de renderizaçao em rotas diferentes', () => {
+  it('test de renderizaçao em rotas diferentes.', () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     let HeaderComponent = screen.getByTestId(pageTitle);
     expect(HeaderComponent.innerHTML).toBe('Drinks');
