@@ -1,18 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../component/Header';
 
-function DoneRecipes({ location, history }) {
+function DoneRecipes() {
   return (
     <div>
-      <Header pathName={ location.pathname } search history={ history } />
+      <Header />
     </div>
   );
 }
-
-DoneRecipes.propTypes = {
-  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
-  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-};
 
 export default DoneRecipes;

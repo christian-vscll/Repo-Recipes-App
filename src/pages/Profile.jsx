@@ -1,17 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../component/Header';
 
-function Profile({ location }) {
+function Profile() {
   return (
     <div>
-      <Header pathName={ location.pathname } search />
+      <Header />
     </div>
   );
 }
-
-Profile.propTypes = {
-  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
-};
 
 export default Profile;

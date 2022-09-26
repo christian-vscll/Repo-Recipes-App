@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import searchIco from '../images/searchIcon.svg';
 import profileIco from '../images/profileIcon.svg';
 
-function Header({ pathName, history }) {
+function Header() {
   const [searchVisible, setSearchVisible] = useState(false);
+  const history = useHistory();
+  const { location: { pathname: pathName } } = history;
   let title = '';
   let search = false;
 
@@ -58,17 +60,5 @@ function Header({ pathName, history }) {
     </div>
   );
 }
-
-Header.defaultProps = {
-  history: {
-    push: () => {},
-  },
-  pathName: '',
-};
-
-Header.propTypes = {
-  pathName: PropTypes.string,
-  history: PropTypes.shape({ push: PropTypes.func }),
-};
 
 export default Header;
