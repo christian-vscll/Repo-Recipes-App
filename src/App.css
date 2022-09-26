@@ -11,13 +11,13 @@
 }
 
 .footer {
+  background-color: orangered;
+  bottom: 0;
   display: flex;
   justify-content: space-evenly;
-  position: fixed;
-  bottom: 0;
   left: 0;
-  background-color: orangered;
-  width: 100vw;
-  padding-top: 10px;
   padding-bottom: 10px;
+  padding-top: 10px;
+  position: fixed;
+  width: 100vw;
 }
