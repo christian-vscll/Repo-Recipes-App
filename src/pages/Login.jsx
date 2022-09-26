@@ -1,31 +1,43 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { saveEmail,
+  saveMealsToken, saveDrinksToken } from '../tests/helpers/localStorage';
 
 function Login() {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [btnIsDisable, setBtnIsDisable] = useState(true);
   const MIN_PASSWORD_LENGTH = 6;
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // branch git merge main-group-9
 
-  const emailHandleChange = ({ target }) => {
-    setEmail(target.value);
-  };
-
-  const passwordHandleChange = ({ target }) => {
-    setPassword(target.value);
-  };
-
-  const handleSubmit = () => {
-    // setEmail('');
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveEmail(email);
+    saveMealsToken();
+    saveDrinksToken();
+    history.push('/meals');
   };
 
   const checkValidInput = () => {
     const passwordLength = password.length;
     if (EMAIL.test(email) && passwordLength >= MIN_PASSWORD_LENGTH) {
       setBtnIsDisable(false);
+    } else {
+      setBtnIsDisable(true);
     }
   };
+
+  const emailHandleChange = ({ target }) => {
+    setEmail(target.value);
+    checkValidInput();
+  };
+
+  const passwordHandleChange = ({ target }) => {
+    setPassword(target.value);
+    checkValidInput();
+  };
+
   return (
     <main>
       Login
@@ -38,7 +50,6 @@ function Login() {
             data-testid="email-input"
             onChange={ ({ target }) => {
               emailHandleChange({ target });
-              checkValidInput();
             } }
             value={ email }
           />
@@ -52,7 +63,6 @@ function Login() {
             data-testid="password-input"
             onChange={ ({ target }) => {
               passwordHandleChange({ target });
-              checkValidInput();
             } }
             value={ password }
           />

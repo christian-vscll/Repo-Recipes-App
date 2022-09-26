@@ -4,15 +4,10 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helpers/renderWith';
 
-const { history } = renderWithRouter(<App />);
-const { pathname } = history.location;
-const EMAIL_TEST = 'test@trybe.com';
-const PASSWORD_TEST = 123456;
-
 describe('Test at Login page', () => {
   it('Should be at pathname "/"', () => {
-    renderWithRouter(<App />);
-    expect(pathname).toBe('/');
+    const { history } = renderWithRouter(<App />);
+    expect(history.location.pathname).toBe('/');
   });
 
   it('Should have the corrects inputs', () => {
@@ -29,13 +24,18 @@ describe('Test at Login page', () => {
     expect(enterBtn).toBeInTheDocument();
   });
 
-  it('Should check input validation', () => {
-    renderWithRouter(<App />);
+  it('Should check input validation, and redirect after user click on enter', () => {
+    const { history } = renderWithRouter(<App />);
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const enterBtn = screen.getByTestId('login-submit-btn');
-    userEvent.type(emailInput, EMAIL_TEST);
-    userEvent.type(passwordInput, PASSWORD_TEST);
+    expect(enterBtn).toBeDisabled();
+    userEvent.type(emailInput, 'test@trybe.com');
+    expect(emailInput).toHaveValue('test@trybe.com');
+    userEvent.type(passwordInput, '1234567');
+    expect(passwordInput).toHaveValue('1234567');
+    expect(enterBtn).toBeEnabled();
     userEvent.click(enterBtn);
+    expect(history.location.pathname).toBe('/meals');
   });
 });
