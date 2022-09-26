@@ -5,6 +5,7 @@ function DoneRecipes() {
   return (
     <div>
       <Header />
+      DoneRecipes
     </div>
   );
 }

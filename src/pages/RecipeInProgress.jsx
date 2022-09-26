@@ -5,6 +5,7 @@ function RecipeInProgress() {
   return (
     <div>
       <Header />
+      RecipeInProgress
     </div>
   );
 }
