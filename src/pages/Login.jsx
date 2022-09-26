@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { saveEmail,
-  saveMealsToken, saveDrinksToken } from '../tests/helpers/localStorage';
+  saveMealsToken, saveDrinksToken } from '../tests/helper/localStorage';
 
 function Login() {
   const history = useHistory();

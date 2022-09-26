@@ -6,7 +6,7 @@ import renderWithRouter from './helper/renderWith';
 
 describe('Component Header', () => {
   const pageTitle = 'page-title';
-  it('funcionalidades do header', () => {
+  it.only('funcionalidades do header', () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
     expect(history.location.pathname).toBe('/meals');
     const HeaderComponent = screen.getByTestId(pageTitle);
@@ -25,19 +25,19 @@ describe('Component Header', () => {
   });
 
   it('test de renderizaçao em rotas diferentes.', () => {
-    const { history } = renderWithRouter(<App />, { initialEntries: ['/drinks'] });
-    let HeaderComponent = screen.getByTestId(pageTitle);
-    expect(HeaderComponent.innerHTML).toBe('Drinks');
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+    const drinkTitles = screen.getByTestId(pageTitle);
+    expect(drinkTitles).toBeInTheDocument();
     history.push('/done-recipes');
-    HeaderComponent = screen.getByTestId(pageTitle);
-    expect(HeaderComponent.innerHTML).toBe('Done Recipes');
+    // console.log(history.location.pathname);
+    const doneRecipesTitle = screen.getByTestId(pageTitle);
+    expect(doneRecipesTitle).toBeInTheDocument();
     history.push('/favorite-recipes');
-    HeaderComponent = screen.getByTestId(pageTitle);
-    expect(HeaderComponent.innerHTML).toBe('Favorite Recipes');
-    waitForElementToBeRemoved(HeaderComponent);
+    const favouriteRecipesTitle = screen.getByTestId(pageTitle);
+    expect(favouriteRecipesTitle).toBeInTheDocument();
+    // waitForElementToBeRemoved(favouriteRecipesTitle);
     history.push('/meals/id-da-receita');
-    history.push('/profile');
-    const buttonProfile = screen.getByTestId('profile-top-btn');
-    userEvent.click(buttonProfile);
+    expect(favouriteRecipesTitle).not.toBeInTheDocument();
   });
 });
