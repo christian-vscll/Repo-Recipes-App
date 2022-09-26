@@ -6,7 +6,7 @@ import renderWithRouter from './helper/renderWith';
 
 describe('Component Header', () => {
   const pageTitle = 'page-title';
-  it.only('funcionalidades do header', () => {
+  it('funcionalidades do header', () => {
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
     expect(history.location.pathname).toBe('/meals');
     const HeaderComponent = screen.getByTestId(pageTitle);
