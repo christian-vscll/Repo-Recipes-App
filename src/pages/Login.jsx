@@ -1,13 +1,11 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-// import Footer from '../component/Footer';
+import Footer from '../component/Footer';
 
 function Login() {
-  // const history = useHistory();
   return (
     <div>
       Login
-      {/* {console.log(history.location.pathname)} */}
+      <Footer />
     </div>
   );
 }

@@ -12,10 +12,11 @@
 
 .recipe-card-div {
   display: flex;
+  flex-direction: column;
 }
 
 .recipe-card-img {
-  width: 100px;
+  width: 200px;
 }
 
 .footer {

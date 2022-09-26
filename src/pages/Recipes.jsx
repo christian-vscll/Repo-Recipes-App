@@ -1,7 +1,7 @@
 import React from 'react';
-import Footer from '../component/Footer';
-import RecipeCard from '../component/RecipeCard';
 import Header from '../component/Header';
+import RecipeCard from '../component/RecipeCard';
+import Footer from '../component/Footer';
 
 function Recipes() {
   return (
