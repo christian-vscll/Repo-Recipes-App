@@ -25,7 +25,7 @@ function RecipeCard() {
   );
 
   return (
-    <div>
+    <div className="recipe-card-div">
       <h1>RECIPE CARDS</h1>
       { foodCardsCreator(splitData) }
     </div>

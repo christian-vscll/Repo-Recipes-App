@@ -10,6 +10,14 @@
   width: 100%;
 }
 
+.recipe-card-div {
+  display: flex;
+}
+
+.recipe-card-img {
+  width: 100px;
+}
+
 .footer {
   background-color: orangered;
   bottom: 0;

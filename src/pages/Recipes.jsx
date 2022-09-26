@@ -4,7 +4,6 @@ import RecipeCard from '../component/RecipeCard';
 import Header from '../component/Header';
 
 function Recipes() {
-  // const history = useHistory();
   return (
     <div>
       <Header />
