@@ -1,4 +1,4 @@
-.meals {
+.recipes {
   align-items: center;
   background: #0fa36b;
   color: #464646;
@@ -10,19 +10,14 @@
   width: 100%;
 }
 
-.recipe-card-div {
+.footer {
+  background-color: orangered;
+  bottom: 0;
   display: flex;
-}
-
-.recipe-card-img {
-  width: 100px;
-}
-
-
-.meals > .logo {
-  animation: shake 1.5s infinite ease;
-  color: aliceblue;
-  font-family: Montserrat , sans-serif;
-  font-size: 3em;
-  font-weight: 900;
+  justify-content: space-evenly;
+  left: 0;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  position: fixed;
+  width: 100vw;
 }
