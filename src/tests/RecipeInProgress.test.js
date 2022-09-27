@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, waitFor } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helper/renderWith';
 import mealsData from './helper/oneMealsMock';
@@ -36,9 +36,9 @@ describe('Component Header', () => {
     const { ingredientList } = mealsData;
     Object.keys(ingredientList).forEach((key, index) => {
       const ingredient = screen.getByTestId(`${index}-ingredient-step`);
-      expect(ingredient).toBeInTheDocument()
+      expect(ingredient).toBeInTheDocument();
       expect(ingredient.innerHTML.includes(key)).toBeTruthy();
       expect(ingredient.innerHTML.includes(ingredientList[key])).toBeTruthy();
-    })
-  })
+    });
+  });
 });
