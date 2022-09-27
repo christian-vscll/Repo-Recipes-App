@@ -36,7 +36,7 @@ describe('Component Header', () => {
     history.push('/favorite-recipes');
     const favouriteRecipesTitle = screen.getByTestId(pageTitle);
     expect(favouriteRecipesTitle).toBeInTheDocument();
-    // waitForElementToBeRemoved(favouriteRecipesTitle);
+    waitForElementToBeRemoved(favouriteRecipesTitle);
     history.push('/meals/id-da-receita');
     expect(favouriteRecipesTitle).not.toBeInTheDocument();
   });
