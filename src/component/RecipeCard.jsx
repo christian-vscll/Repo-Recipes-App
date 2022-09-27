@@ -6,19 +6,27 @@ function RecipeCard() {
   const isMeals = history.location.pathname === '/meals';
 
   const [originalMeals, setOriginalMeals] = useState([]);
+  const [renderedMeals, setRenderedMeals] = useState([]);
   const [originalDrinks, setOriginalDrinks] = useState([]);
+  const [renderedDrinks, setRenderedDrinks] = useState([]);
   const [originalMealsCategories, setOriginalMealsCategories] = useState([]);
   const [originalDrinksCategories, setOriginalDrinksCategories] = useState([]);
+  const [+, setMealCategorySelected] = useState('');
+  const [mealCategorySelectedArray, setMealCategorySelectedArray] = useState([]);
+  const [drinkCategorySelected, setDrinkCategorySelected] = useState('');
+  const [drinkCategorySelectedArray, setDrinkCategorySelectedArray] = useState([]);
 
   const getMeals = async () => {
     const responseMeals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const dataMeals = await responseMeals.json();
     const { meals } = dataMeals;
     setOriginalMeals(meals);
+    setRenderedMeals(meals);
     const responseDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     const dataDrinks = await responseDrinks.json();
     const { drinks } = dataDrinks;
     setOriginalDrinks(drinks);
+    setRenderedDrinks(drinks);
   };
 
   const getMealsCategories = async () => {
@@ -36,16 +44,17 @@ function RecipeCard() {
     getMeals();
     getMealsCategories();
   }, []);
+
   const NUMBER_OF_ITEMS_NEEDED = 12;
   const NUMBER_OF_CATEGORIES_NEEDED = 5;
-  const splitFoodData = originalMeals.slice(0, NUMBER_OF_ITEMS_NEEDED);
+  const splitFoodData = renderedMeals.slice(0, NUMBER_OF_ITEMS_NEEDED);
   const splitFoodCategoriesData = originalMealsCategories
     .slice(0, NUMBER_OF_CATEGORIES_NEEDED);
   // console.log('Food Data');
   // console.log(splitFoodData);
   // console.log(splitFoodCategoriesData);
 
-  const splitDrinkData = originalDrinks.slice(0, NUMBER_OF_ITEMS_NEEDED);
+  const splitDrinkData = renderedDrinks.slice(0, NUMBER_OF_ITEMS_NEEDED);
   const splitDrinksCategoriesData = originalDrinksCategories
     .slice(0, NUMBER_OF_CATEGORIES_NEEDED);
   // console.log('Drink Data');
@@ -88,31 +97,72 @@ function RecipeCard() {
     ))
   );
 
+  // useEffect(() => {
+
+  // }, []);
+
+  const getMealCategoryArray = async (categoryFixed) => {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryFixed}`);
+    const data = await response.json();
+    setMealCategorySelectedArray(data);
+  };
+
   const handleFoodsCatButtons = (category) => {
+    setMealCategorySelected(category);
+
     const categoryFixed = category.split(' ').join('_');
-    console.log(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryFixed}`);
+    getMealCategoryArray(categoryFixed);
+  };
+
+  // useEffect(() => {
+  //   setRenderedDrinks([]);
+  // }, [drinkCategorySelectedArray]);
+
+  const getDrinkCategoryArray = async (categoryFixed) => {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryFixed}`);
+    const data = await response.json();
+    setDrinkCategorySelectedArray(data);
+    // const teste = [
+    //   {
+    //     strDrink: '3-Mile Long Island Iced Tea',
+    //     strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/rrtssw1472668972.jpg',
+    //     idDrink: '15300',
+    //   },
+    // ];
+    setRenderedDrinks(data);
+    // console.log(originalDrinks);
   };
 
   const handleDrinksCatButtons = (category) => {
+    setDrinkCategorySelected(category);
+
     const categoryFixed = category.split(' ').join('_');
-    console.log(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryFixed}`);
+    getDrinkCategoryArray(categoryFixed);
   };
 
   // função que vai criar os botões de categoria dinamicamente
   const categorieButtonCreator = (categories) => (
-    categories.map(({ strCategory }, index) => (
+    <div>
       <button
-        data-testid={ `${strCategory}-category-filter` }
-        key={ index }
+        data-testid="All-category-filter"
         type="button"
-        className="recipe-card-buttons"
-        onClick={ isMeals
-          ? () => handleFoodsCatButtons(strCategory)
-          : () => handleDrinksCatButtons(strCategory) }
       >
-        { strCategory }
+        All
       </button>
-    ))
+      { categories.map(({ strCategory }, index) => (
+        <button
+          data-testid={ `${strCategory}-category-filter` }
+          key={ index }
+          type="button"
+          className="recipe-card-buttons"
+          onClick={ isMeals
+            ? () => handleFoodsCatButtons(strCategory)
+            : () => handleDrinksCatButtons(strCategory) }
+        >
+          { strCategory }
+        </button>
+      )) }
+    </div>
   );
 
   return (
