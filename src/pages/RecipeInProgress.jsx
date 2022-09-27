@@ -15,7 +15,8 @@ function RecipeInProgress() {
   const [instructions, setInstructions] = useState('');
   useEffect(() => {
     const fetchDrinkWithId = async () => {
-      const drink = await drinksIdRequest('13899' || recipeId);
+      // const drink = await drinksIdRequest('13899' || recipeId);
+      const drink = await drinksIdRequest(recipeId);
       setUrlImg(drink.strDrinkThumb);
       setCategory(drink.strCategory);
       setName(drink.strDrink);
@@ -29,8 +30,9 @@ function RecipeInProgress() {
       setIngredient(ingredientesObj);
     };
     const fetchMealsWithId = async () => {
-      const meals = await mealsIdRequest('52964' || recipeId);
-      console.log(meals);
+      const meals = await mealsIdRequest(recipeId);
+      // const meals = { ...mealsMock };
+      // console.log(meals);
       setUrlImg(meals.strMealThumb);
       setCategory(meals.strCategory);
       setName(meals.strMeal);
@@ -66,8 +68,8 @@ function RecipeInProgress() {
         <p data-testid="recipe-category">{category}</p>
         <div data-testid="instructions">
           {instructions}
-          <IngredientList ingredients={ Ingredient } />
         </div>
+        <IngredientList ingredients={ Ingredient } />
         <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
       </div>
     </div>
