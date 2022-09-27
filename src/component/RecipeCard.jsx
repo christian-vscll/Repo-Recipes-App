@@ -11,7 +11,7 @@ function RecipeCard() {
   const [renderedDrinks, setRenderedDrinks] = useState([]);
   const [originalMealsCategories, setOriginalMealsCategories] = useState([]);
   const [originalDrinksCategories, setOriginalDrinksCategories] = useState([]);
-  const [+, setMealCategorySelected] = useState('');
+  const [mealCategorySelected, setMealCategorySelected] = useState('');
   const [mealCategorySelectedArray, setMealCategorySelectedArray] = useState([]);
   const [drinkCategorySelected, setDrinkCategorySelected] = useState('');
   const [drinkCategorySelectedArray, setDrinkCategorySelectedArray] = useState([]);
