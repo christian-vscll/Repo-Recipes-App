@@ -5,7 +5,7 @@
 /* eslint-disable max-len */
 /* eslint-disable sonarjs/no-duplicate-string */
 
-const meals = [
+export const meals = [
   {
     'idMeal': '52977',
     'strMeal': 'Corba',
@@ -1333,4 +1333,19 @@ const meals = [
   }
 ];
 
-export default meals;
+export const mealsCategories = [
+  { strCategory: 'Beef' },
+  { strCategory: 'Breakfast' },
+  { strCategory: 'Chicken' },
+  { strCategory: 'Dessert' },
+  { strCategory: 'Goat' },
+  { strCategory: 'Lamb' },
+  { strCategory: 'Miscellaneous' },
+  { strCategory: 'Pasta' },
+  { strCategory: 'Pork' },
+  { strCategory: 'Seafood' },
+  { strCategory: 'Side' },
+  { strCategory: 'Starter' },
+  { strCategory: 'Vegan' },
+  { strCategory: 'Vegetarian' }
+];

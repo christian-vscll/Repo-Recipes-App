@@ -5,7 +5,7 @@
 /* eslint-disable max-len */
 /* eslint-disable sonarjs/no-duplicate-string */
 
-const drinks = [
+export const drinks = [
   {
     'idDrink': '15997',
     'strDrink': 'GG',
@@ -1383,4 +1383,16 @@ const drinks = [
   }
 ];
 
-export default drinks;
+export const drinkCategories = [
+  { "strCategory": "Ordinary Drink" },
+  { "strCategory": "Cocktail" },
+  { "strCategory": "Shake" },
+  { "strCategory": "Other/Unknown" },
+  { "strCategory": "Cocoa" },
+  { "strCategory": "Shot" },
+  { "strCategory": "Coffee / Tea" },
+  { "strCategory": "Homemade Liqueur" },
+  { "strCategory": "Punch / Party Drink" },
+  { "strCategory": "Beer" },
+  { "strCategory": "Soft Drink" }
+];
