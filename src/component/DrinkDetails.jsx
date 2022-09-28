@@ -35,6 +35,12 @@ function DrinkDetails() {
     finalIngredients.push(obj);
   }
 
+  const verifyDoneRecipes = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes === null || doneRecipes.length === 0) return false;
+    return doneRecipes.some((recipe) => recipe.name === strDrink);
+  };
+
   useEffect(() => {
     const fetchRecomendations = async () => {
       const URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -86,6 +92,17 @@ function DrinkDetails() {
           )
         }
       </div>
+      {
+        verifyDoneRecipes() === false && (
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="bt-start-recipe"
+          >
+            Start Recipe
+          </button>
+        )
+      }
     </div>
   );
 }

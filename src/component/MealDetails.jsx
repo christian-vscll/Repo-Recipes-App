@@ -40,6 +40,12 @@ function MealDetails() {
     finalIngredients.push(obj);
   }
 
+  const verifyDoneRecipes = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes === null || doneRecipes.length === 0) return false;
+    return doneRecipes.some((recipe) => recipe.name === strMeal);
+  };
+
   useEffect(() => {
     const fetchRecomendations = async () => {
       const URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -96,6 +102,17 @@ function MealDetails() {
           )
         }
       </div>
+      {
+        verifyDoneRecipes() === false && (
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            className="bt-start-recipe"
+          >
+            Start Recipe
+          </button>
+        )
+      }
     </div>
   );
 }
