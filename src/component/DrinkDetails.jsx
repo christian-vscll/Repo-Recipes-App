@@ -14,7 +14,9 @@ function DrinkDetails() {
     strDrink,
     strAlcoholic,
     strInstructions,
+    idDrink,
   } = recipeDetail.drinks[0];
+  console.log(recipeDetail.drinks[0]);
 
   const minSlice1 = 21;
   const maxSlice1 = 36;
@@ -39,6 +41,14 @@ function DrinkDetails() {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     if (doneRecipes === null || doneRecipes.length === 0) return false;
     return doneRecipes.some((recipe) => recipe.name === strDrink);
+  };
+
+  const verifyRecipeInProgress = () => {
+    const drinksInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (drinksInProgress === null || drinksInProgress.length === 0) return;
+    if (
+      drinksInProgress !== null && drinksInProgress.length !== 0
+    ) return Object.keys(drinksInProgress.drinks).includes(idDrink);
   };
 
   useEffect(() => {
@@ -99,7 +109,11 @@ function DrinkDetails() {
             data-testid="start-recipe-btn"
             className="bt-start-recipe"
           >
-            Start Recipe
+            {
+              verifyRecipeInProgress() === true
+                ? 'Continue Recipe'
+                : 'Start Recipe'
+            }
           </button>
         )
       }

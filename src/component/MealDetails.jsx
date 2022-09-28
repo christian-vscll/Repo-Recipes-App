@@ -15,7 +15,9 @@ function MealDetails() {
     strCategory,
     strInstructions,
     strYoutube,
+    idMeal,
   } = recipeDetail.meals[0];
+  console.log(recipeDetail.meals[0]);
 
   const urlVideo = strYoutube.replace('watch?v=', 'embed/');
 
@@ -44,6 +46,14 @@ function MealDetails() {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     if (doneRecipes === null || doneRecipes.length === 0) return false;
     return doneRecipes.some((recipe) => recipe.name === strMeal);
+  };
+
+  const verifyRecipeInProgress = () => {
+    const mealsInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (mealsInProgress === null || mealsInProgress.length === 0) return;
+    if (
+      mealsInProgress !== null && mealsInProgress.length !== 0
+    ) return Object.keys(mealsInProgress.meals).includes(idMeal);
   };
 
   useEffect(() => {
@@ -109,7 +119,11 @@ function MealDetails() {
             data-testid="start-recipe-btn"
             className="bt-start-recipe"
           >
-            Start Recipe
+            {
+              verifyRecipeInProgress() === true
+                ? 'Continue Recipe'
+                : 'Start Recipe'
+            }
           </button>
         )
       }
