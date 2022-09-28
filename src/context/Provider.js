@@ -3,11 +3,10 @@ import propTypes from 'prop-types';
 import MyContext from './MyContext';
 
 function Provider({ children }) {
-  const [results, setResults] = useState([]);
+  const [recipeDetail, setRecipeDetail] = useState();
 
   const contextValue = {
-    results,
-    setResults,
+    recipeDetail, setRecipeDetail,
   };
 
   return (
