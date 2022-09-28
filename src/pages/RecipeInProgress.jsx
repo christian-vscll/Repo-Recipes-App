@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Header from '../component/Header';
 import IngredientList from '../component/IngredientsList';
 import drinksIdRequest from '../services/drinksFetch';
 import mealsIdRequest from '../services/mealsFetch';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import favoriteRecipesLocalStorage from '../services/favoriteRecipesLocalStorage';
 
 function RecipeInProgress() {
   const { id: recipeId } = useParams();
@@ -13,13 +17,28 @@ function RecipeInProgress() {
   const [name, setName] = useState('');
   const [Ingredient, setIngredient] = useState({});
   const [instructions, setInstructions] = useState('');
+  const [shareButton, setShareButton] = useState('Share');
+  const [isfavorite, setIsFavorite] = useState(false);
+  const [nationality, setNationality] = useState('');
+  const [alcoholicOrNot, setAlcoholicOrNot] = useState('');
+
+  useEffect(() => {
+    if (shareButton !== 'Share') {
+      const twoSeconds = 2000;
+      setTimeout(() => setShareButton('Share'), twoSeconds);
+    }
+  }, [shareButton]);
+
   useEffect(() => {
     const fetchDrinkWithId = async () => {
       // const drink = await drinksIdRequest('13899' || recipeId);
       const drink = await drinksIdRequest(recipeId);
+      console.log(drink);
       setUrlImg(drink.strDrinkThumb);
       setCategory(drink.strCategory);
       setName(drink.strDrink);
+      setNationality(drink.strArea || '');
+      setAlcoholicOrNot(drink.strAlcoholic);
       setInstructions(drink.strInstructions);
       const ingredientesKeys = Object.keys(drink)
         .filter((value) => value.includes('strIngredient'));
@@ -36,6 +55,7 @@ function RecipeInProgress() {
       setUrlImg(meals.strMealThumb);
       setCategory(meals.strCategory);
       setName(meals.strMeal);
+      setNationality(meals.strArea);
       setInstructions(meals.strInstructions);
       const ingredientesKeys = Object.keys(meals)
         .filter((value) => value.includes('strIngredient'));
@@ -51,7 +71,39 @@ function RecipeInProgress() {
     } else {
       fetchMealsWithId();
     }
+
+    const isFav = favoriteRecipesLocalStorage.isFavoriteRecipe({
+      id: recipeId,
+      type: pathname.split('/')[1] === 'meals' ? 'meal' : 'drink',
+    });
+    setIsFavorite(isFav);
   }, []);
+
+  const shareLink = () => {
+    const linkCopyArray = pathname.split('/');
+    const linkCopy = `http://localhost:3000/${linkCopyArray[1]}/${recipeId}`;
+    copy(linkCopy).then(() => setShareButton('Link copied!'));
+  };
+
+  const clickFavorite = () => {
+    const favoriteRecipe = {
+      id: recipeId,
+      type: pathname.split('/')[1] === 'meals' ? 'meal' : 'drink',
+      nationality,
+      category,
+      alcoholicOrNot,
+      name,
+      image: urlImg,
+    };
+    if (isfavorite) {
+      setIsFavorite(false);
+      favoriteRecipesLocalStorage.removeFavoriteFood(favoriteRecipe);
+    } else {
+      setIsFavorite(true);
+      favoriteRecipesLocalStorage.saveFavoriteFood(favoriteRecipe);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -63,8 +115,20 @@ function RecipeInProgress() {
           width="200px"
         />
         <h3 data-testid="recipe-title">{ name || 'sem titulo'}</h3>
-        <button type="button" data-testid="share-btn">Share</button>
-        <button type="button" data-testid="favorite-btn">Fav</button>
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ shareLink }
+        >
+          {shareButton}
+        </button>
+        <button type="button" onClick={ clickFavorite }>
+          <img
+            src={ isfavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
         <p data-testid="recipe-category">{category}</p>
         <div data-testid="instructions">
           {instructions}
