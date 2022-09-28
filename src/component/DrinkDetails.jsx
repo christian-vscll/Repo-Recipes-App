@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
 
 function DrinkDetails() {
   const {
     recipeDetail,
+    recomendations,
+    setRecomendations,
   } = useContext(MyContext);
 
   const {
@@ -33,13 +35,16 @@ function DrinkDetails() {
     finalIngredients.push(obj);
   }
 
-  const recomendations = async () => {
-    const URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    const response = await fetch(URL);
-    const json = await response.json();
-    console.log(json);
-  };
-  recomendations();
+  useEffect(() => {
+    const fetchRecomendations = async () => {
+      const URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(URL);
+      const json = await response.json();
+      const maxSlice = 6;
+      setRecomendations(json.meals.slice(0, maxSlice));
+    };
+    fetchRecomendations();
+  }, [setRecomendations]);
 
   return (
     <div>
@@ -60,6 +65,26 @@ function DrinkDetails() {
       <div>
         <h4> Instruções </h4>
         <span data-testid="instructions">{ strInstructions }</span>
+      </div>
+      <h4> Recommended </h4>
+      <div className="div-recomendations-um">
+        {
+          recomendations !== undefined && (
+            recomendations.map((meal, index) => (
+              <div key={ index } className="div-recomendations-dois">
+                <img
+                  src={ meal.strMealThumb }
+                  alt={ meal.strMeal }
+                  data-testid={ `${index}-recommendation-card` }
+                  className="recomendation-card"
+                />
+                <h3 data-testid={ `${index}-recommendation-title` }>
+                  { meal.strMeal }
+                </h3>
+              </div>
+            ))
+          )
+        }
       </div>
     </div>
   );

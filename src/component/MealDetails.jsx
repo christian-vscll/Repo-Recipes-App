@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
 
 function MealDetails() {
   const {
     recipeDetail,
+    recomendations,
+    setRecomendations,
   } = useContext(MyContext);
 
   const {
@@ -38,13 +40,16 @@ function MealDetails() {
     finalIngredients.push(obj);
   }
 
-  const recomendations = async () => {
-    const URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const response = await fetch(URL);
-    const json = await response.json();
-    console.log(json);
-  };
-  recomendations();
+  useEffect(() => {
+    const fetchRecomendations = async () => {
+      const URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(URL);
+      const json = await response.json();
+      const maxSlice = 6;
+      setRecomendations(json.drinks.slice(0, maxSlice));
+    };
+    fetchRecomendations();
+  }, [setRecomendations]);
 
   return (
     <div>
@@ -71,6 +76,26 @@ function MealDetails() {
         title={ strMeal }
         src={ urlVideo }
       />
+      <h4> Recommended </h4>
+      <div className="div-recomendations-um">
+        {
+          recomendations !== undefined && (
+            recomendations.map((drink, index) => (
+              <div key={ index } className="div-recomendations-dois">
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                  data-testid={ `${index}-recommendation-card` }
+                  className="recomendation-card"
+                />
+                <h3 data-testid={ `${index}-recommendation-title` }>
+                  { drink.strDrink }
+                </h3>
+              </div>
+            ))
+          )
+        }
+      </div>
     </div>
   );
 }

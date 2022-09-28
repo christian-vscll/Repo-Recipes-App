@@ -4,9 +4,13 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [recipeDetail, setRecipeDetail] = useState();
+  const [recomendations, setRecomendations] = useState();
 
   const contextValue = {
-    recipeDetail, setRecipeDetail,
+    recipeDetail,
+    setRecipeDetail,
+    recomendations,
+    setRecomendations,
   };
 
   return (
