@@ -11,7 +11,7 @@ import favoriteRecipesLocalStorage from '../services/favoriteRecipesLocalStorage
 
 function RecipeInProgress() {
   const { id: recipeId } = useParams();
-  const { location: { pathname } } = useHistory();
+  const { location: { pathname }, push } = useHistory();
   const [urlImg, setUrlImg] = useState('');
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
@@ -21,6 +21,7 @@ function RecipeInProgress() {
   const [isfavorite, setIsFavorite] = useState(false);
   const [nationality, setNationality] = useState('');
   const [alcoholicOrNot, setAlcoholicOrNot] = useState('');
+  const [isFinishButton, setIsFinishButton] = useState(false);
 
   useEffect(() => {
     if (shareButton !== 'Share') {
@@ -104,6 +105,11 @@ function RecipeInProgress() {
     }
   };
 
+  const activeFinishButton = (boolean) => {
+    setIsFinishButton(boolean);
+  };
+  console.log('IsFinishButton', isFinishButton);
+
   return (
     <div>
       <Header />
@@ -133,8 +139,18 @@ function RecipeInProgress() {
         <div data-testid="instructions">
           {instructions}
         </div>
-        <IngredientList ingredients={ Ingredient } />
-        <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+        <IngredientList
+          ingredients={ Ingredient }
+          activeFinishButton={ activeFinishButton }
+        />
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          disabled={ !isFinishButton }
+          onClick={ () => push('/done-recipes') }
+        >
+          Finalizar
+        </button>
       </div>
     </div>
   );
