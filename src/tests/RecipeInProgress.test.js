@@ -1,15 +1,22 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helper/renderWith';
 import mealsData from './helper/oneMealsMock';
+import drinkData from './helper/oneDrinksMock';
+// import copy from 'clipboard-copy';
+
+const favoritebtn = 'favorite-btn';
 
 describe('Component Header', () => {
-  it('testando pagina RecipeInProgress', async () => {
+  beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(mealsData),
     }));
+  });
+
+  it('testando pagina RecipeInProgress', async () => {
     renderWithRouter(<App />, { initialEntries: ['/meals/52771/in-progress'] });
     await waitFor(() => {
       expect(global.fetch).toBeCalled();
@@ -19,7 +26,7 @@ describe('Component Header', () => {
     expect(shareButton).toBeInTheDocument();
     const finishButton = screen.getByTestId('finish-recipe-btn');
     expect(finishButton).toBeInTheDocument();
-    const FavButton = screen.getByTestId('favorite-btn');
+    const FavButton = screen.getByTestId(favoritebtn);
     expect(FavButton).toBeInTheDocument();
     const imageElement = screen.getByTestId('recipe-photo');
     expect(imageElement).toBeInTheDocument();
@@ -39,6 +46,57 @@ describe('Component Header', () => {
       expect(ingredient).toBeInTheDocument();
       expect(ingredient.innerHTML.includes(key)).toBeTruthy();
       expect(ingredient.innerHTML.includes(ingredientList[key])).toBeTruthy();
+    });
+  });
+  it('teste dos ingredientes', async () => {
+    document.execCommand = jest.fn(() => Promise.resolve());
+    const { history } = renderWithRouter(<App />, {
+      initialEntries: ['/meals/52771/in-progress'],
+    });
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
+    const finish = screen.getByTestId('finish-recipe-btn');
+    expect(finish).toBeDisabled();
+    const max = 8;
+    for (let i = 0; i < max; i += 1) {
+      const ingrediente = screen.getByTestId(`${i}-ingredient-step`);
+      const ingredienteCheck = screen.getByTestId(`${i}-ingredient-step-check`);
+      expect(ingrediente).toBeInTheDocument();
+      expect(ingredienteCheck).not.toBeChecked();
+      userEvent.click(ingredienteCheck);
+      expect(ingredienteCheck).toBeChecked();
+    }
+    expect(finish).toBeEnabled();
+    const shareButton = screen.getByTestId('share-btn');
+    userEvent.click(shareButton);
+    await waitFor(() => {
+      expect(document.execCommand).toHaveBeenCalledWith('copy');
+    });
+    // const shareButtonByText = screen.queryByText(/'Link copied!'/i);
+    // expect(shareButtonByText).toBeInTheDocument();
+    const favoriteButton = screen.getByTestId(favoritebtn);
+    expect(favoriteButton.src.includes('white')).toBeTruthy();
+    userEvent.click(favoriteButton);
+    const FavoritedButton = screen.getByTestId(favoritebtn);
+    expect(FavoritedButton.src.includes('black')).toBeTruthy();
+    userEvent.click(favoriteButton);
+    const FavoritedButtonDisable = screen.getByTestId(favoritebtn);
+    expect(FavoritedButtonDisable.src.includes('white')).toBeTruthy();
+    userEvent.click(finish);
+    expect(history.location.pathname).toBe('/done-recipes');
+  });
+  it('testando bebidas', async () => {
+    const link = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=12474';
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve(drinkData),
+    }));
+    renderWithRouter(<App />, {
+      initialEntries: ['/drinks/12474/in-progress'],
+    });
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(global.fetch).toHaveBeenCalledWith(link);
     });
   });
 });

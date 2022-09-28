@@ -47,12 +47,13 @@ function IngredientList({ ingredients, activeFinishButton }) {
             <span>:  </span>
             <span>{ingredients[key]}</span>
             <input
+              data-testid={ `${index}-ingredient-step-check` }
               id={ key }
               type="checkbox"
               onClick={ ({ target }) => clickCheckbox({ target, key }) }
-              checked={ ingredientChecked === undefined
+              defaultChecked={ ingredientChecked[key] === undefined
                 ? false
-                : ingredientChecked[key] }
+                : (ingredientChecked[key]) }
             />
           </label>
         </li>

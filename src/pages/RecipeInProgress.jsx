@@ -23,18 +23,18 @@ function RecipeInProgress() {
   const [alcoholicOrNot, setAlcoholicOrNot] = useState('');
   const [isFinishButton, setIsFinishButton] = useState(false);
 
-  useEffect(() => {
-    if (shareButton !== 'Share') {
-      const twoSeconds = 2000;
-      setTimeout(() => setShareButton('Share'), twoSeconds);
-    }
-  }, [shareButton]);
+  // useEffect(() => {
+  //   if (shareButton !== 'Share') {
+  //     const twoSeconds = 2000;
+  //     setTimeout(() => setShareButton('Share'), twoSeconds);
+  //   }
+  // }, [shareButton]);
 
   useEffect(() => {
     const fetchDrinkWithId = async () => {
       // const drink = await drinksIdRequest('13899' || recipeId);
       const drink = await drinksIdRequest(recipeId);
-      console.log(drink);
+      // console.log(drink);
       setUrlImg(drink.strDrinkThumb);
       setCategory(drink.strCategory);
       setName(drink.strDrink);
@@ -108,7 +108,7 @@ function RecipeInProgress() {
   const activeFinishButton = (boolean) => {
     setIsFinishButton(boolean);
   };
-  console.log('IsFinishButton', isFinishButton);
+  // console.log('IsFinishButton', isFinishButton);
 
   return (
     <div>
