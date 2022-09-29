@@ -112,7 +112,6 @@ function RecipeInProgress() {
 
   return (
     <div>
-      <Header />
       <div className="receita">
         <img
           src={ urlImg }
