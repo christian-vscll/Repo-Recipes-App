@@ -10,7 +10,6 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Provider from './context/Provider';
 
-// import rockGlass from './images/rockGlass.svg';
 function App() {
   return (
     <div className="recipes">

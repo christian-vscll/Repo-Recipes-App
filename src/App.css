@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 2600px;
+}
+
 .recipes {
   align-items: center;
   color: #464646;
@@ -7,6 +11,18 @@
   height: 100vh;
   width: 100%;
 }
+
+.recipe-card-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card-img {
+  width: 200px;
+}
+
+/* .recipe-card-buttons {
+} */
 
 .footer {
   background-color: orangered;
