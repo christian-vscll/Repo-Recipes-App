@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
 
@@ -18,6 +19,8 @@ function MealDetails() {
     idMeal,
   } = recipeDetail.meals[0];
   console.log(recipeDetail.meals[0]);
+
+  const history = useHistory();
 
   const urlVideo = strYoutube.replace('watch?v=', 'embed/');
 
@@ -118,6 +121,7 @@ function MealDetails() {
             type="button"
             data-testid="start-recipe-btn"
             className="bt-start-recipe"
+            onClick={ () => history.push(`/meals/${idMeal}/in-progress`) }
           >
             {
               verifyRecipeInProgress() === true

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
 
@@ -17,6 +18,8 @@ function DrinkDetails() {
     idDrink,
   } = recipeDetail.drinks[0];
   console.log(recipeDetail.drinks[0]);
+
+  const history = useHistory();
 
   const minSlice1 = 21;
   const maxSlice1 = 36;
@@ -108,6 +111,7 @@ function DrinkDetails() {
             type="button"
             data-testid="start-recipe-btn"
             className="bt-start-recipe"
+            onClick={ () => history.push(`/drinks/${idDrink}/in-progress`) }
           >
             {
               verifyRecipeInProgress() === true
