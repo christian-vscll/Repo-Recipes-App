@@ -121,6 +121,14 @@ function DrinkDetails() {
           </button>
         )
       }
+      <div className="div-footer">
+        <button className="share" type="button" data-testid="share-btn">
+          Share
+        </button>
+        <button className="favorite" type="button" data-testid="favorite-btn">
+          Favorite
+        </button>
+      </div>
     </div>
   );
 }

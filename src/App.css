@@ -47,12 +47,32 @@
 }
 
 .bt-start-recipe {
-  position: fixed;
   width: 100vw;
-  bottom: 0;
-  border-radius: 10px;
-  background-color: orangered;
+  border-radius: 0px 0px 10px 10px;
+  background-color: rgb(241, 136, 98);
   height: 40px;
   color: whitesmoke;
   font-size: larger;
+  border: 1px solid rgb(59, 59, 59);
+  position: fixed;
+  bottom: 0;
 }
+
+.div-footer {
+  position: fixed;
+  bottom: 41px;
+  width: 100vw;
+  /* position: fixed;
+  bottom: 41px; */
+}
+
+.share, .favorite {
+  width: 50%;
+  background-color: rgb(241, 136, 98);
+  color: whitesmoke;
+  /* border-radius: 8px; */
+  height: 30px;
+  border: 1px solid rgb(59, 59, 59);
+}
+.share { border-radius: 10px 0px 0px 0px; }
+.favorite { border-radius: 0px 10px 0px 0px; }
