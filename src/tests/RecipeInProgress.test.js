@@ -8,6 +8,7 @@ import drinkData from './helper/oneDrinksMock';
 // import copy from 'clipboard-copy';
 
 const favoritebtn = 'favorite-btn';
+const mealsLink = '/meals/52771/in-progress';
 
 describe('Component Header', () => {
   beforeEach(() => {
@@ -17,7 +18,7 @@ describe('Component Header', () => {
   });
 
   it('testando pagina RecipeInProgress', async () => {
-    renderWithRouter(<App />, { initialEntries: ['/meals/52771/in-progress'] });
+    renderWithRouter(<App />, { initialEntries: [mealsLink] });
     await waitFor(() => {
       expect(global.fetch).toBeCalled();
     });
@@ -51,7 +52,7 @@ describe('Component Header', () => {
   it('teste dos ingredientes', async () => {
     document.execCommand = jest.fn(() => Promise.resolve());
     const { history } = renderWithRouter(<App />, {
-      initialEntries: ['/meals/52771/in-progress'],
+      initialEntries: [mealsLink],
     });
     await waitFor(() => {
       expect(global.fetch).toBeCalled();
@@ -98,5 +99,19 @@ describe('Component Header', () => {
       expect(global.fetch).toBeCalled();
       expect(global.fetch).toHaveBeenCalledWith(link);
     });
+  });
+  it('favorite in local Storage', async () => {
+    const fav = {
+      id: '52771',
+      type: 'meal',
+    };
+    const { history } = renderWithRouter(<App />);
+    localStorage.setItem('favoriteRecipes', JSON.stringify([fav]));
+    history.push(mealsLink);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+    });
+    const FavoritedButton = screen.getByTestId(favoritebtn);
+    expect(FavoritedButton.src.includes('black')).toBeTruthy();
   });
 });
