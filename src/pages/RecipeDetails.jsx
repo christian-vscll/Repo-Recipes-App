@@ -1,9 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import DrinkDetails from '../component/DrinkDetails';
-import MealDetails from '../component/MealDetails';
 import MyContext from '../context/MyContext';
 import { fetchById } from '../tests/helper/API';
+import renderOnRecipeDetails from '../tests/helper/renderRoutes';
 import '../App.css';
 
 function RecipeDetails() {
@@ -11,24 +10,11 @@ function RecipeDetails() {
   const path = useHistory().location.pathname;
 
   useEffect(() => {
-    const fetch = async (param) => {
-      setRecipeDetail(await fetchById(param));
-    };
-
+    const fetch = async (param) => setRecipeDetail(await fetchById(param));
     fetch(path);
   }, [path, setRecipeDetail]);
 
-  return (
-    <div>
-      {
-        recipeDetail !== undefined && (
-          path.includes('/meals')
-            ? <MealDetails />
-            : <DrinkDetails />
-        )
-      }
-    </div>
-  );
+  return <div>{ renderOnRecipeDetails(recipeDetail, path) }</div>;
 }
 
 export default RecipeDetails;

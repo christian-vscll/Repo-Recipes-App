@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
 import imgShare from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import '../App.css';
 
 const copy = require('clipboard-copy');
@@ -14,6 +16,8 @@ function DrinkDetails() {
     setRecomendations,
     copied,
     setCopied,
+    favoriteRecipes,
+    setFavoriteRecipes,
   } = useContext(MyContext);
 
   const {
@@ -22,8 +26,8 @@ function DrinkDetails() {
     strAlcoholic,
     strInstructions,
     idDrink,
+    strCategory,
   } = recipeDetail.drinks[0];
-  console.log(recipeDetail.drinks[0]);
 
   const history = useHistory();
 
@@ -60,6 +64,64 @@ function DrinkDetails() {
     ) return Object.keys(drinksInProgress.drinks).includes(idDrink);
   };
 
+  const verifyFavorite = () => {
+    if (favoriteRecipes === undefined || favoriteRecipes === null) {
+      return (
+        <img className="heart" src={ whiteHeartIcon } alt="Isn't favorite" />
+      );
+    }
+    if (favoriteRecipes.some((recipe) => String(recipe.id) === idDrink) === true) {
+      return (
+        <img className="heart" src={ blackHeartIcon } alt="Is favorite" />
+      );
+    }
+    return (
+      <img className="heart" src={ whiteHeartIcon } alt="Isn't favorite" />
+    );
+  };
+
+  const srcFavorite = () => {
+    if (favoriteRecipes === undefined || favoriteRecipes === null) {
+      return whiteHeartIcon;
+    }
+    if (favoriteRecipes.some((recipe) => String(recipe.id) === idDrink) === true) {
+      return blackHeartIcon;
+    }
+    return whiteHeartIcon;
+  };
+
+  const toggleFavorite = () => {
+    const storageRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    let newFavorites;
+    let obj;
+    if (storageRecipes === null) {
+      newFavorites = [{
+        id: idDrink,
+        type: 'drink',
+        nationality: '',
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic,
+        name: strDrink,
+        image: strDrinkThumb,
+      }];
+    } else if (storageRecipes.some((recipe) => String(recipe.id) === idDrink) === true) {
+      newFavorites = storageRecipes.filter((recipe) => String(recipe.id) !== idDrink);
+    } else {
+      obj = {
+        id: idDrink,
+        type: 'drink',
+        nationality: '',
+        category: strCategory,
+        alcoholicOrNot: strAlcoholic,
+        name: strDrink,
+        image: strDrinkThumb,
+      };
+      newFavorites = [...storageRecipes, obj];
+    }
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    setFavoriteRecipes(newFavorites);
+  };
+
   useEffect(() => {
     const fetchRecomendations = async () => {
       const URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -72,6 +134,13 @@ function DrinkDetails() {
   }, [setRecomendations]);
 
   useEffect(() => { setCopied(); }, [setCopied]);
+
+  useEffect(() => {
+    const storageRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (storageRecipes !== null || storageRecipes !== undefined) {
+      setFavoriteRecipes(storageRecipes);
+    }
+  }, [setFavoriteRecipes]);
 
   return (
     <div>
@@ -129,9 +198,7 @@ function DrinkDetails() {
             onClick={ () => history.push(`/drinks/${idDrink}/in-progress`) }
           >
             {
-              verifyRecipeInProgress() === true
-                ? 'Continue Recipe'
-                : 'Start Recipe'
+              verifyRecipeInProgress() === true ? 'Continue Recipe' : 'Start Recipe'
             }
           </button>
         )
@@ -144,12 +211,21 @@ function DrinkDetails() {
           onClick={ async () => {
             copy(`http://localhost:3000${history.location.pathname}`);
             await setCopied(true);
+            window.scrollTo(0, document.body.scrollHeight);
           } }
         >
           <img src={ imgShare } alt="Share Icon" className="share-icon" />
         </button>
-        <button className="favorite" type="button" data-testid="favorite-btn">
-          Favorite
+        <button
+          className="favorite"
+          type="button"
+          data-testid="favorite-btn"
+          onClick={ toggleFavorite }
+          src={ srcFavorite() }
+        >
+          {
+            verifyFavorite()
+          }
         </button>
       </div>
     </div>
