@@ -17,35 +17,39 @@ function RecipeCard() {
   const [toggleOn, setToggleOn] = useState(false);
 
   const getMeals = async () => {
-    const responseMeals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    const dataMeals = await responseMeals.json();
-    const { meals } = dataMeals;
-    const splitFoodData = meals.slice(0, NUMBER_OF_ITEMS_NEEDED);
-    setOriginalMeals(splitFoodData);
-    setRenderedMeals(splitFoodData);
-    const responseDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const dataDrinks = await responseDrinks.json();
-    const { drinks } = dataDrinks;
-    const splitDrinkData = drinks.slice(0, NUMBER_OF_ITEMS_NEEDED);
-    setOriginalDrinks(splitDrinkData);
-    setRenderedDrinks(splitDrinkData);
+    const actual = isMeals ? 'meal' : 'cocktail';
+    const response = await fetch(`https://www.the${actual}db.com/api/json/v1/1/search.php?s=`);
+    const data = await response.json();
+    if (isMeals) {
+      const { meals } = data;
+      const splitFoodData = meals.slice(0, NUMBER_OF_ITEMS_NEEDED);
+      setOriginalMeals(splitFoodData);
+      setRenderedMeals(splitFoodData);
+    } else {
+      const { drinks } = data;
+      const splitDrinkData = drinks.slice(0, NUMBER_OF_ITEMS_NEEDED);
+      setOriginalDrinks(splitDrinkData);
+      setRenderedDrinks(splitDrinkData);
+    }
   };
 
   const getMealsCategories = async () => {
-    const responseMealsCategories = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-    const dataMealsCategories = await responseMealsCategories.json();
-    const { meals } = dataMealsCategories;
-    setOriginalMealsCategories(meals.slice(0, NUMBER_OF_CATEGORIES_NEEDED));
-    const responseDrinksCategories = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-    const dataDrinksCategories = await responseDrinksCategories.json();
-    const { drinks } = dataDrinksCategories;
-    setOriginalDrinksCategories(drinks.slice(0, NUMBER_OF_CATEGORIES_NEEDED));
+    const actual = isMeals ? 'meal' : 'cocktail';
+    const response = await fetch(`https://www.the${actual}db.com/api/json/v1/1/list.php?c=list`);
+    const data = await response.json();
+    if (isMeals) {
+      const { meals } = data;
+      setOriginalMealsCategories(meals.slice(0, NUMBER_OF_CATEGORIES_NEEDED));
+    } else {
+      const { drinks } = data;
+      setOriginalDrinksCategories(drinks.slice(0, NUMBER_OF_CATEGORIES_NEEDED));
+    }
   };
 
   useEffect(() => {
     getMeals();
     getMealsCategories();
-  }, []);
+  }, [isMeals]);
 
   const foodCardsCreator = (data) => (
     data.map(({
@@ -117,7 +121,6 @@ function RecipeCard() {
     const data = await response.json();
     const { drinks } = data;
     setRenderedDrinks(drinks.slice(0, NUMBER_OF_ITEMS_NEEDED));
-    console.log(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
   };
 
   const handleDrinksCatButtons = async (category) => {
