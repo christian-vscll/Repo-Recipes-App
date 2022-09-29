@@ -2,12 +2,18 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import { renderIngredients } from '../tests/helper/API';
+import imgShare from '../images/shareIcon.svg';
+import '../App.css';
+
+const copy = require('clipboard-copy');
 
 function DrinkDetails() {
   const {
     recipeDetail,
     recomendations,
     setRecomendations,
+    copied,
+    setCopied,
   } = useContext(MyContext);
 
   const {
@@ -65,6 +71,8 @@ function DrinkDetails() {
     fetchRecomendations();
   }, [setRecomendations]);
 
+  useEffect(() => { setCopied(); }, [setCopied]);
+
   return (
     <div>
       <img
@@ -106,6 +114,13 @@ function DrinkDetails() {
         }
       </div>
       {
+        copied !== undefined && (
+          <div className="copied-div">
+            <h3>Link copied!</h3>
+          </div>
+        )
+      }
+      {
         verifyDoneRecipes() === false && (
           <button
             type="button"
@@ -122,8 +137,16 @@ function DrinkDetails() {
         )
       }
       <div className="div-footer">
-        <button className="share" type="button" data-testid="share-btn">
-          Share
+        <button
+          className="share"
+          type="button"
+          data-testid="share-btn"
+          onClick={ async () => {
+            copy(`http://localhost:3000${history.location.pathname}`);
+            await setCopied(true);
+          } }
+        >
+          <img src={ imgShare } alt="Share Icon" className="share-icon" />
         </button>
         <button className="favorite" type="button" data-testid="favorite-btn">
           Favorite

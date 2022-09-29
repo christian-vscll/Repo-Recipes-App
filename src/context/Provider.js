@@ -5,12 +5,15 @@ import MyContext from './MyContext';
 function Provider({ children }) {
   const [recipeDetail, setRecipeDetail] = useState();
   const [recomendations, setRecomendations] = useState();
+  const [copied, setCopied] = useState();
 
   const contextValue = {
     recipeDetail,
     setRecipeDetail,
     recomendations,
     setRecomendations,
+    copied,
+    setCopied,
   };
 
   return (

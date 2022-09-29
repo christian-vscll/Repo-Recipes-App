@@ -4,6 +4,7 @@ import DrinkDetails from '../component/DrinkDetails';
 import MealDetails from '../component/MealDetails';
 import MyContext from '../context/MyContext';
 import { fetchById } from '../tests/helper/API';
+import '../App.css';
 
 function RecipeDetails() {
   const { recipeDetail, setRecipeDetail } = useContext(MyContext);
