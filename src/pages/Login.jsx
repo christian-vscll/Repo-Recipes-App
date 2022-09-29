@@ -42,9 +42,6 @@ function Login() {
 
   return (
     <div>
-      <header>
-        <Header />
-      </header>
       <main>
         <form action="">
           <label htmlFor="#">
@@ -82,9 +79,6 @@ function Login() {
             Enter
           </button>
         </form>
-        <footer>
-          <Footer />
-        </footer>
       </main>
     </div>
   );
