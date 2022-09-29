@@ -1,15 +1,13 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-import Footer from '../component/Footer';
 import Header from '../component/Header';
+import RecipeCard from '../component/RecipeCard';
+import Footer from '../component/Footer';
 
 function Recipes() {
-  // const history = useHistory();
   return (
     <div>
       <Header />
-      Recipes
-      {/* {console.log(history.location.pathname)} */}
+      <RecipeCard />
       <Footer />
     </div>
   );

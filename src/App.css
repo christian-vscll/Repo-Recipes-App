@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 2600px;
+}
+
 .recipes {
   align-items: center;
   background: #0fa36b;
@@ -6,9 +10,22 @@
   flex-direction: column;
   font-family: sans-serif;
   height: 100vh;
-  justify-content: center;
+
+  /* justify-content: center; */
   width: 100%;
 }
+
+.recipe-card-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card-img {
+  width: 200px;
+}
+
+/* .recipe-card-buttons {
+} */
 
 .footer {
   background-color: orangered;
