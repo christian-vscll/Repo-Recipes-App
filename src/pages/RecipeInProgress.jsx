@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
-import Header from '../component/Header';
+// import Header from '../component/Header';
 import IngredientList from '../component/IngredientsList';
 import drinksIdRequest from '../services/drinksFetch';
 import mealsIdRequest from '../services/mealsFetch';
