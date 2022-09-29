@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const NUMBER_OF_ITEMS_NEEDED = 12;
 const NUMBER_OF_CATEGORIES_NEEDED = 5;
@@ -14,10 +14,6 @@ function RecipeCard() {
   const [renderedDrinks, setRenderedDrinks] = useState([]);
   const [originalMealsCategories, setOriginalMealsCategories] = useState([]);
   const [originalDrinksCategories, setOriginalDrinksCategories] = useState([]);
-  const [mealCategorySelected, setMealCategorySelected] = useState('');
-  const [mealCategorySelectedArray, setMealCategorySelectedArray] = useState([]);
-  const [drinkCategorySelected, setDrinkCategorySelected] = useState('');
-  const [drinkCategorySelectedArray, setDrinkCategorySelectedArray] = useState([]);
   const [toggleOn, setToggleOn] = useState(false);
 
   const getMeals = async () => {
@@ -57,7 +53,11 @@ function RecipeCard() {
       strMeal,
       strMealThumb,
     }, index) => (
-      <div data-testid={ `${index}-recipe-card` } key={ idMeal }>
+      <Link
+        data-testid={ `${index}-recipe-card` }
+        to={ `/meals/${idMeal}` }
+        key={ idMeal }
+      >
         <h3 data-testid={ `${index}-card-name` }>{ strMeal }</h3>
         <img
           data-testid={ `${index}-card-img` }
@@ -65,7 +65,7 @@ function RecipeCard() {
           src={ strMealThumb }
           alt={ `${strMeal}` }
         />
-      </div>
+      </Link>
     ))
   );
 
@@ -75,7 +75,11 @@ function RecipeCard() {
       strDrink,
       strDrinkThumb,
     }, index) => (
-      <div data-testid={ `${index}-recipe-card` } key={ idDrink }>
+      <Link
+        data-testid={ `${index}-recipe-card` }
+        to={ `/drinks/${idDrink}` }
+        key={ idDrink }
+      >
         <h3 data-testid={ `${index}-card-name` }>{ strDrink }</h3>
         <img
           data-testid={ `${index}-card-img` }
@@ -83,7 +87,7 @@ function RecipeCard() {
           src={ strDrinkThumb }
           alt={ `${strDrink}` }
         />
-      </div>
+      </Link>
     ))
   );
 
@@ -95,14 +99,12 @@ function RecipeCard() {
   const getMealCategoryArray = async (category) => {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
     const data = await response.json();
-    setMealCategorySelectedArray(data);
     const { meals } = data;
     setRenderedMeals(meals.slice(0, NUMBER_OF_ITEMS_NEEDED));
   };
 
   const handleFoodsCatButtons = (category) => {
     if (!toggleOn) {
-      setMealCategorySelected(category);
       getMealCategoryArray(category);
     } else {
       handleAllButton('food');
@@ -113,7 +115,6 @@ function RecipeCard() {
   const getDrinkCategoryArray = async (category) => {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
     const data = await response.json();
-    setDrinkCategorySelectedArray(data);
     const { drinks } = data;
     setRenderedDrinks(drinks.slice(0, NUMBER_OF_ITEMS_NEEDED));
     console.log(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
@@ -121,7 +122,6 @@ function RecipeCard() {
 
   const handleDrinksCatButtons = async (category) => {
     if (!toggleOn) {
-      setDrinkCategorySelected(category);
       getDrinkCategoryArray(category);
     } else {
       handleAllButton('drinks');
