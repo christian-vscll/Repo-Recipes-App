@@ -8,6 +8,7 @@ import drinkData from './helper/oneDrinksMock';
 // import copy from 'clipboard-copy';
 
 const favoritebtn = 'favorite-btn';
+const finishRecipeBtn = 'finish-recipe-btn';
 const mealsLink = '/meals/52771/in-progress';
 
 describe('Component Header', () => {
@@ -25,7 +26,7 @@ describe('Component Header', () => {
     expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771');
     const shareButton = screen.getByTestId('share-btn');
     expect(shareButton).toBeInTheDocument();
-    const finishButton = screen.getByTestId('finish-recipe-btn');
+    const finishButton = screen.getByTestId(finishRecipeBtn);
     expect(finishButton).toBeInTheDocument();
     const FavButton = screen.getByTestId(favoritebtn);
     expect(FavButton).toBeInTheDocument();
@@ -57,7 +58,7 @@ describe('Component Header', () => {
     await waitFor(() => {
       expect(global.fetch).toBeCalled();
     });
-    const finish = screen.getByTestId('finish-recipe-btn');
+    const finish = screen.getByTestId(finishRecipeBtn);
     expect(finish).toBeDisabled();
     const max = 8;
     for (let i = 0; i < max; i += 1) {
@@ -99,6 +100,17 @@ describe('Component Header', () => {
       expect(global.fetch).toBeCalled();
       expect(global.fetch).toHaveBeenCalledWith(link);
     });
+    const max = 3;
+    for (let i = 0; i < max; i += 1) {
+      const ingrediente = screen.getByTestId(`${i}-ingredient-step`);
+      const ingredienteCheck = screen.getByTestId(`${i}-ingredient-step-check`);
+      expect(ingrediente).toBeInTheDocument();
+      expect(ingredienteCheck).not.toBeChecked();
+      userEvent.click(ingredienteCheck);
+      expect(ingredienteCheck).toBeChecked();
+    }
+    const finishButton = screen.getByTestId('finish-recipe-btn');
+    userEvent.click(finishButton);
   });
   it('favorite in local Storage', async () => {
     const fav = {
