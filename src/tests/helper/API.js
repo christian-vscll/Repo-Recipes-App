@@ -1,7 +1,7 @@
 export const fetchById = async (path) => {
   let URL;
   const sliceCaseMeals = -5;
-  const sliceCaseDrinks = -6;
+  const sliceCaseDrinks = -5;
   if (path.includes('meals')) URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${path.slice(sliceCaseMeals)}`;
   else URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${path.slice(sliceCaseDrinks)}`;
 

@@ -10,8 +10,11 @@ function RecipeDetails() {
   const path = useHistory().location.pathname;
 
   useEffect(() => {
-    const fetch = async (param) => setRecipeDetail(await fetchById(param));
-    fetch(path);
+    const fetchAux = async (param) => {
+      setRecipeDetail(await fetchById(param));
+    };
+
+    fetchAux(path);
   }, [path, setRecipeDetail]);
 
   return <div>{ renderOnRecipeDetails(recipeDetail, path) }</div>;

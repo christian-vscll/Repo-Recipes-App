@@ -15,14 +15,12 @@ body {
 .recipe-card-div {
   display: flex;
   flex-direction: column;
+  margin-bottom: 80px;
 }
 
 .recipe-card-img {
   width: 200px;
 }
-
-/* .recipe-card-buttons {
-} */
 
 .footer {
   background-color: orangered;
