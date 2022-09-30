@@ -7,6 +7,7 @@ function Provider({ children }) {
   const [recomendations, setRecomendations] = useState();
   const [copied, setCopied] = useState();
   const [favoriteRecipes, setFavoriteRecipes] = useState();
+  const [filter, setFilter] = useState('all');
 
   const contextValue = {
     recipeDetail,
@@ -17,6 +18,8 @@ function Provider({ children }) {
     setCopied,
     favoriteRecipes,
     setFavoriteRecipes,
+    filter,
+    setFilter,
   };
 
   return (

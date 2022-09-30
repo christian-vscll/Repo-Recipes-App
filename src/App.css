@@ -98,3 +98,15 @@ body {
   margin: -7px;
   max-height: 90%;
 }
+
+.favoriteRecipe-div {
+  width: 90vw;
+}
+
+.img-favorite-card {
+  max-width: 50%;
+}
+
+.favoriteRecipe-share, .favoriteRecipe-unlike {
+  height: 50px;
+}

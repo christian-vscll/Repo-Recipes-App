@@ -30,7 +30,7 @@ function MealDetails() {
     strArea,
   } = recipeDetail.meals[0];
 
-  console.log('TÁ ENTRANDO NO MEAL DETAILS');
+  // console.log(recipeDetail.meals[0]);
 
   const history = useHistory();
 

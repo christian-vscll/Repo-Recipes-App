@@ -29,6 +29,14 @@ function DrinkDetails() {
     strCategory,
   } = recipeDetail.drinks[0];
 
+  // const obj = {
+  //   id: idDrink,
+  //   type: 'drink',
+  //   nationality: '',
+  //   category: strCategory,
+
+  // };
+
   const history = useHistory();
 
   const minSlice1 = 21;
