@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -31,13 +32,15 @@ function FavoriteCard() {
             if (recipe.type === 'meal') {
               return (
                 <div className="favoriteRecipe-div" key={ index }>
-                  <img
-                    className="img-favorite-card"
-                    src={ recipe.image }
-                    alt={ recipe.image }
-                    data-testid={ `${index}-horizontal-image` }
-                  />
-                  <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
+                  <Link to={ `/meals/${recipe.id}` }>
+                    <img
+                      className="img-favorite-card"
+                      src={ recipe.image }
+                      alt={ recipe.image }
+                      data-testid={ `${index}-horizontal-image` }
+                    />
+                    <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
+                  </Link>
                   <h4 data-testid={ `${index}-horizontal-top-text` }>
                     { `${recipe.nationality} - ${recipe.category}` }
                   </h4>
@@ -69,13 +72,15 @@ function FavoriteCard() {
             }
             return (
               <div className="favoriteRecipe-div" key={ index }>
-                <img
-                  className="img-favorite-card"
-                  src={ recipe.image }
-                  alt={ recipe.image }
-                  data-testid={ `${index}-horizontal-image` }
-                />
-                <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
+                <Link to={ `/drinks/${recipe.id}` }>
+                  <img
+                    className="img-favorite-card"
+                    src={ recipe.image }
+                    alt={ recipe.image }
+                    data-testid={ `${index}-horizontal-image` }
+                  />
+                  <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
+                </Link>
                 <h4 data-testid={ `${index}-horizontal-top-text` }>
                   { recipe.alcoholicOrNot }
                 </h4>
