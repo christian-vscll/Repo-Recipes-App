@@ -13,7 +13,6 @@ function RecipeDetails() {
     const fetchAux = async (param) => {
       setRecipeDetail(await fetchById(param));
     };
-
     fetchAux(path);
   }, [path, setRecipeDetail]);
 

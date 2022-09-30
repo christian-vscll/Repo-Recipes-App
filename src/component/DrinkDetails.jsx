@@ -28,6 +28,7 @@ function DrinkDetails() {
     idDrink,
     strCategory,
   } = recipeDetail.drinks[0];
+  console.log(recipeDetail.drinks[0]);
 
   const history = useHistory();
 
