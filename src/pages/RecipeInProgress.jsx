@@ -8,6 +8,7 @@ import mealsIdRequest from '../services/mealsFetch';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import favoriteRecipesLocalStorage from '../services/favoriteRecipesLocalStorage';
+import doneRecipesLocalStorage from '../services/doneRecipesLocalStorage';
 
 function RecipeInProgress() {
   const { id: recipeId } = useParams();
@@ -21,6 +22,7 @@ function RecipeInProgress() {
   const [isfavorite, setIsFavorite] = useState(false);
   const [nationality, setNationality] = useState('');
   const [alcoholicOrNot, setAlcoholicOrNot] = useState('');
+  const [tags, setTags] = useState('');
   const [isFinishButton, setIsFinishButton] = useState(false);
 
   // useEffect(() => {
@@ -41,6 +43,7 @@ function RecipeInProgress() {
       setNationality(drink.strArea || '');
       setAlcoholicOrNot(drink.strAlcoholic);
       setInstructions(drink.strInstructions);
+      setTags(drink.strTags);
       const ingredientesKeys = Object.keys(drink)
         .filter((value) => value.includes('strIngredient'));
       const ingredientesObj = {};
@@ -58,6 +61,7 @@ function RecipeInProgress() {
       setName(meals.strMeal);
       setNationality(meals.strArea);
       setInstructions(meals.strInstructions);
+      setTags(meals.strTags);
       const ingredientesKeys = Object.keys(meals)
         .filter((value) => value.includes('strIngredient'));
       const ingredientesObj = {};
@@ -110,6 +114,22 @@ function RecipeInProgress() {
   };
   // console.log('IsFinishButton', isFinishButton);
 
+  const finishButtonfn = () => {
+    const recipe = {
+      id: recipeId,
+      type: pathname.split('/')[1] === 'meals' ? 'meal' : 'drink',
+      nationality,
+      category,
+      alcoholicOrNot,
+      name,
+      image: urlImg,
+      tags: (tags !== null ? tags.split(',') : []),
+      doneDate: new Date().toLocaleDateString(),
+    };
+    doneRecipesLocalStorage.addDoneRecipe(recipe);
+    push('/done-recipes');
+  };
+
   return (
     <div>
       <div className="receita">
@@ -146,7 +166,7 @@ function RecipeInProgress() {
           type="button"
           data-testid="finish-recipe-btn"
           disabled={ !isFinishButton }
-          onClick={ () => push('/done-recipes') }
+          onClick={ finishButtonfn }
         >
           Finalizar
         </button>
