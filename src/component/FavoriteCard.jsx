@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-// import { useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -9,10 +8,14 @@ const copy = require('clipboard-copy');
 
 function FavoriteCard() {
   const {
-    favoriteRecipes, filter, copied, setCopied,
+    favoriteRecipes, setFavoriteRecipes, filter, copied, setCopied,
   } = useContext(MyContext);
 
-  // const history = useHistory();
+  const unLike = (param) => {
+    const newFavorites = favoriteRecipes.filter((elem) => elem.id !== param);
+    setFavoriteRecipes(newFavorites);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+  };
 
   let filteredRecipes;
   if (filter === 'all') filteredRecipes = favoriteRecipes;
@@ -47,7 +50,6 @@ function FavoriteCard() {
                     onClick={ () => {
                       copy(`http://localhost:3000/meals/${recipe.id}`);
                       setCopied(true);
-                      // window.scrollTo(0, document.body.scrollHeight);
                     } }
                   >
                     <img src={ shareIcon } alt="share" />
@@ -57,6 +59,7 @@ function FavoriteCard() {
                     type="button"
                     data-testid={ `${index}-horizontal-favorite-btn` }
                     src={ blackHeartIcon }
+                    onClick={ () => unLike(recipe.id) }
                   >
                     <img src={ blackHeartIcon } alt="unlike" />
                   </button>
@@ -84,7 +87,6 @@ function FavoriteCard() {
                   onClick={ () => {
                     copy(`http://localhost:3000/drinks/${recipe.id}`);
                     setCopied(true);
-                    // window.scrollTo(0, document.body.scrollHeight);
                   } }
                 >
                   <img src={ shareIcon } alt="share" />
@@ -94,6 +96,7 @@ function FavoriteCard() {
                   type="button"
                   data-testid={ `${index}-horizontal-favorite-btn` }
                   src={ blackHeartIcon }
+                  onClick={ () => unLike(recipe.id) }
                 >
                   <img src={ blackHeartIcon } alt="unlike" />
                 </button>
