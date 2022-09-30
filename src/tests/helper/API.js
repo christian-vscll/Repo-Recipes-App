@@ -1,15 +1,13 @@
 export const fetchById = async (path) => {
   let URL;
-  let id;
-  for (let index = path.length; index > 0; index -= 1) {
-    if (path[index] !== '/') id += path[index];
-    else return;
+  let id = '';
+  let tramontina = false;
+  for (let index = 5; index < path.length; index += 1) {
+    if (tramontina === true) id += path[index];
+    if (path[index] === '/') tramontina = true;
   }
-  console.log(id);
-  const sliceCaseMeals = -5;
-  const sliceCaseDrinks = -5;
-  if (path.includes('meals')) URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${path.slice(sliceCaseMeals)}`;
-  else URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${path.slice(sliceCaseDrinks)}`;
+  if (path.includes('meals')) URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  else URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
 
   const response = await fetch(URL);
   const json = await response.json();

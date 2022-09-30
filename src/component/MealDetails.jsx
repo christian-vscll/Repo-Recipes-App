@@ -30,6 +30,8 @@ function MealDetails() {
     strArea,
   } = recipeDetail.meals[0];
 
+  console.log('TÁ ENTRANDO NO MEAL DETAILS');
+
   const history = useHistory();
 
   const urlVideo = strYoutube.replace('watch?v=', 'embed/');
