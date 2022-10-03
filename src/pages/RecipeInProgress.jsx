@@ -82,7 +82,7 @@ function RecipeInProgress() {
       type: pathname.split('/')[1] === 'meals' ? 'meal' : 'drink',
     });
     setIsFavorite(isFav);
-  }, []);
+  }, [recipeId, pathname]);
 
   const shareLink = () => {
     const linkCopyArray = pathname.split('/');
