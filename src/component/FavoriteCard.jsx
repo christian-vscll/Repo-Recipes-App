@@ -21,18 +21,61 @@ function FavoriteCard() {
   let filteredRecipes;
   if (filter === 'all') filteredRecipes = favoriteRecipes;
   else {
-    filteredRecipes = favoriteRecipes.filter((recipe) => recipe.type === filter);
+    filteredRecipes = favoriteRecipes
+      .filter((recipe) => recipe.type === filter);
   }
 
   return (
     <div>
       {
-        filteredRecipes !== undefined && (
-          filteredRecipes.map((recipe, index) => {
-            if (recipe.type === 'meal') {
+        (filteredRecipes === undefined || filteredRecipes === null)
+          ? <h1>Loading...</h1>
+          : (
+            filteredRecipes.map((recipe, index) => {
+              if (recipe.type === 'meal') {
+                return (
+                  <div className="favoriteRecipe-div" key={ index }>
+                    <Link to={ `/meals/${recipe.id}` }>
+                      <img
+                        className="img-favorite-card"
+                        src={ recipe.image }
+                        alt={ recipe.image }
+                        data-testid={ `${index}-horizontal-image` }
+                      />
+                      <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
+                    </Link>
+                    <h4 data-testid={ `${index}-horizontal-top-text` }>
+                      { `${recipe.nationality} - ${recipe.category}` }
+                    </h4>
+                    <h4>{ recipe.nationality }</h4>
+                    <button
+                      className="favoriteRecipe-share"
+                      type="button"
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      src={ shareIcon }
+                      onClick={ () => {
+                        copy(`http://localhost:3000/meals/${recipe.id}`);
+                        setCopied(true);
+                      } }
+                    >
+                      <img src={ shareIcon } alt="share" />
+                    </button>
+                    <button
+                      className="favoriteRecipe-unlike"
+                      type="button"
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      src={ blackHeartIcon }
+                      onClick={ () => unLike(recipe.id) }
+                    >
+                      <img src={ blackHeartIcon } alt="unlike" />
+                    </button>
+                    {copied && (<h1>Link copied!</h1>)}
+                  </div>
+                );
+              }
               return (
                 <div className="favoriteRecipe-div" key={ index }>
-                  <Link to={ `/meals/${recipe.id}` }>
+                  <Link to={ `/drinks/${recipe.id}` }>
                     <img
                       className="img-favorite-card"
                       src={ recipe.image }
@@ -42,16 +85,15 @@ function FavoriteCard() {
                     <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
                   </Link>
                   <h4 data-testid={ `${index}-horizontal-top-text` }>
-                    { `${recipe.nationality} - ${recipe.category}` }
+                    { recipe.alcoholicOrNot }
                   </h4>
-                  <h4>{ recipe.nationality }</h4>
                   <button
                     className="favoriteRecipe-share"
                     type="button"
                     data-testid={ `${index}-horizontal-share-btn` }
                     src={ shareIcon }
                     onClick={ () => {
-                      copy(`http://localhost:3000/meals/${recipe.id}`);
+                      copy(`http://localhost:3000/drinks/${recipe.id}`);
                       setCopied(true);
                     } }
                   >
@@ -69,55 +111,9 @@ function FavoriteCard() {
                   {copied && (<h1>Link copied!</h1>)}
                 </div>
               );
-            }
-            return (
-              <div className="favoriteRecipe-div" key={ index }>
-                <Link to={ `/drinks/${recipe.id}` }>
-                  <img
-                    className="img-favorite-card"
-                    src={ recipe.image }
-                    alt={ recipe.image }
-                    data-testid={ `${index}-horizontal-image` }
-                  />
-                  <h4 data-testid={ `${index}-horizontal-name` }>{ recipe.name }</h4>
-                </Link>
-                <h4 data-testid={ `${index}-horizontal-top-text` }>
-                  { recipe.alcoholicOrNot }
-                </h4>
-                <button
-                  className="favoriteRecipe-share"
-                  type="button"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  src={ shareIcon }
-                  onClick={ () => {
-                    copy(`http://localhost:3000/drinks/${recipe.id}`);
-                    setCopied(true);
-                  } }
-                >
-                  <img src={ shareIcon } alt="share" />
-                </button>
-                <button
-                  className="favoriteRecipe-unlike"
-                  type="button"
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  src={ blackHeartIcon }
-                  onClick={ () => unLike(recipe.id) }
-                >
-                  <img src={ blackHeartIcon } alt="unlike" />
-                </button>
-                {copied && (<h1>Link copied!</h1>)}
-              </div>
-            );
-          })
-        )
+            })
+          )
       }
-      {/* {
-        copied !== undefined && (
-          <div className="copied-div">
-            <h3>Link copied!</h3>
-          </div>
-        )
-      } */}
     </div>
   );
 }
